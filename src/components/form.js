@@ -1,80 +1,26 @@
-import React from "react";
-
+import { FormControl } from "@mui/material";
+import { Input } from "@mui/material";
+import { InputLabel } from "@mui/material";
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 function form() {
   return (
     <>
-      <div class="container  w-75  bg-primary mt-5 rounded shadow">
-        <div class="row align-items-stretch">
-          <div class="col bg-white p-5 rounded-end">
-            <div class="text-end"></div>
-            <h2 class="fw-bold text-center py-5">Registra una comunidad</h2>
-
-            <form>
-              <div class="mb-4">
-                <label for="text" class="form-label">
-                  ID
-                </label>
-                <input type="text" class="form-control" name="name" />
-              </div>
-              <div class="mb-4">
-                <label for="text2" class="form-label">
-                  nombre comunidad
-                </label>
-                <input type="text2" class="form-control" name="lastname" />
-              </div>
-              <div class="mb-4">
-                <label for="text2" class="form-label">
-                  Departamento
-                </label>
-                <select class="form-select" aria-label="Default select example">
-                <option selected></option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-              </div>
-              <div class="mb-4">
-                <label for="text2" class="form-label">
-                  Municipios
-                </label>
-                <select class="form-select" aria-label="Default select example">
-                <option selected></option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-              </div>
-              <div class="mb-4">
-                <label for="text2" class="form-label">
-                  categoria
-                </label>
-                <select class="form-select" aria-label="Default select example">
-                <option selected></option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-              </div>
-              <div class="mb-4">
-                <label for="text2" class="form-label">
-                  Distrito
-                </label>
-                <select class="form-select" aria-label="Default select example">
-                <option selected></option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-              </div>
-              <div class="d-grid">
-                <button type="submit" class="btn btn-danger">
-                  Registrar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+      <Card justifyContent="center" alignItems="center" sx={{ minWidth: 300 }}>
+        <FormControl>
+          <CardContent>
+            <InputLabel htmlFor="my-input">Codigo Comunidad</InputLabel>
+            <Input id="my-input" aria-describedby="my-helper-text" />
+            <InputLabel htmlFor="my-input">NombreComunidad</InputLabel>
+            <Input id="my-input" aria-describedby="my-helper-text" />
+          </CardContent>
+        </FormControl>
+      </Card>
     </>
   );
 }
