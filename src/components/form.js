@@ -1,28 +1,117 @@
-import { FormControl } from "@mui/material";
-import { Input } from "@mui/material";
-import { InputLabel } from "@mui/material";
+import { FormControl, FormLabel } from "@mui/material";
+import {Grid, TextField, MenuItem, Select,Button} from "@mui/material";
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
+import {useState, useEffect} from 'react';
 import Typography from "@mui/material/Typography";
-function form() {
+function Form() {
+  const [departamentos ,setdepartamentos] = useState([]); 
+  useEffect(() => {
+    fetch("/comunidades/departamentos")
+      .then((res) => res.json())
+      .then((data) => setdepartamentos(data.data));
+  }, []);
+  const llenardepartamentos = () =>{
+    return departamentos.map((com,index)=>(
+      <MenuItem key={index.coddepartamento} value={com.coddepartamento}>
+      {com.departamento}
+     </MenuItem>
+      )); 
+}
+console.log(departamentos); 
   return (
     <>
-      <Card justifyContent="center" alignItems="center" sx={{ minWidth: 300 }}>
-        <FormControl>
-          <CardContent>
-            <InputLabel htmlFor="my-input">Codigo Comunidad</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
-            <InputLabel htmlFor="my-input">NombreComunidad</InputLabel>
-            <Input id="my-input" aria-describedby="my-helper-text" />
-          </CardContent>
-        </FormControl>
-      </Card>
+      <form>
+      <Grid container alignItems="center" justify="center" direction="column">
+      <Typography mt={2} variant="h3" gutterBottom>
+        Registrar nueva Comunidad
+      </Typography>
+        <Grid item>
+          <TextField
+            id="codigo-input"
+            name="codigo"
+            label="codigo comunidad"
+            type="text"
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            id="nombre-input"
+            name="nombre"
+            label="Nombre de la comunidad"
+            type="text"
+          />
+        </Grid>
+        <Grid item>
+          <FormControl>
+          <FormLabel>Seleccione el departamento</FormLabel>
+            <Select
+              name="departamento"
+            >
+              {llenardepartamentos()}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <FormControl>
+          <FormLabel>Seleccione el municipio</FormLabel>
+            <Select
+              name="municipio"
+            >
+              <MenuItem key="mac" value="mac">
+                Mac
+              </MenuItem>
+              <MenuItem key="windows" value="windows">
+                Windows
+              </MenuItem>
+              <MenuItem key="linux " value="linux">
+                Linux
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <FormControl>
+          <FormLabel>Seleccione la categoria</FormLabel>
+            <Select
+              name="categoria"
+            >
+              <MenuItem key="mac" value="mac">
+                Mac
+              </MenuItem>
+              <MenuItem key="windows" value="windows">
+                Windows
+              </MenuItem>
+              <MenuItem key="linux " value="linux">
+                Linux
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <FormControl mb={2}>
+          <FormLabel>Seleccione el distrito</FormLabel>
+            <Select
+              name="distrito"
+            >
+              <MenuItem key="mac" value="mac">
+                Mac
+              </MenuItem>
+              <MenuItem key="windows" value="windows">
+                Windows
+              </MenuItem>
+              <MenuItem key="linux " value="linux">
+                Linux
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Button  variant="contained" color="primary" type="submit">
+          Guardar comunidad
+        </Button>
+       </Grid>
+      </form>
     </>
   );
 }
 
-export default form;
+export default Form;
