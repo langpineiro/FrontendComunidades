@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useState, useEffect} from 'react'; 
-
+import TablePagination from '@mui/material/TablePagination';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -28,46 +28,61 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-
-
-const rows = [
-];
-
 export default function Tabla() {
   const [comunidades ,setComunidades] = useState([]); 
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
     useEffect(() => {
       fetch("/comunidades")
         .then((res) => res.json())
         .then((data) => setComunidades(data.data));
     }, []);
-    console.log(comunidades); 
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+    
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(+event.target.value);
+      setPage(0);
+    };
   return (
+    <Paper sx={{ width: '100%' }}>
     <TableContainer component={Paper}>
       <Table mt={4} sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Codigo Comunidad</StyledTableCell>
-            <StyledTableCell align="right">Nombre comunidad</StyledTableCell>
-            <StyledTableCell align="right">Departamento&nbsp;</StyledTableCell>
-            <StyledTableCell align="right">Municipio&nbsp;</StyledTableCell>
-            <StyledTableCell align="right">Categoria&nbsp;</StyledTableCell>
-            <StyledTableCell align="right">Distrito&nbsp;</StyledTableCell>
+            {/* <StyledTableCell>Codigo Comunidad</StyledTableCell> */}
+            <StyledTableCell align="center">Nombre comunidad</StyledTableCell>
+            <StyledTableCell align="center">Departamento</StyledTableCell>
+            <StyledTableCell align="center">Municipio</StyledTableCell>
+            <StyledTableCell align="center">Categoria</StyledTableCell>
+            <StyledTableCell align="center">Distrito</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {comunidades.map((row,index) => (
+          {comunidades.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => (
             <StyledTableRow key={index}>
-              <StyledTableCell component="th" scope="row">
-                {row.COMUNIDAD}
+              <StyledTableCell align="center" component="th" scope="row">
+                {row.comunidad}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.DEPARTAMENTO}</StyledTableCell>
-              <StyledTableCell align="right">{row.MUNICIPIO}</StyledTableCell>
-              <StyledTableCell align="right">{row.CATEGORIA}</StyledTableCell>
-              <StyledTableCell align="right">{row.DISTRITO}</StyledTableCell>
+              <StyledTableCell align="center">{row.coddepto}</StyledTableCell>
+              <StyledTableCell align="center">{row.codmuni}</StyledTableCell>
+              <StyledTableCell align="center">{row.codcategoria}</StyledTableCell>
+              <StyledTableCell align="center">{row.coddistrito}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    <TablePagination
+        rowsPerPageOptions={[10, 25, 100]}
+        component="div"
+        count={comunidades.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+     </Paper>
   );
 }

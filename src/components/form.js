@@ -3,24 +3,61 @@ import {Grid, TextField, MenuItem, Select,Button} from "@mui/material";
 import * as React from "react";
 import {useState, useEffect} from 'react';
 import Typography from "@mui/material/Typography";
+import {postData} from '../utils/fetch';
 function Form() {
-  const [departamentos ,setdepartamentos] = useState([]); 
+  const [departamentos ,setdepartamentos] = useState([]);
+  // const [departamentSelec, setDepartamentSelec] = useState('');
+  const [input, setInput] = useState({
+    id : '',
+    comunidad : '',
+    coddepto : 0,
+    codmuni : 0,
+    codcategoria : 0,
+    coddistrito : 0
+  });
+  const [municipios, setMunicipios] = useState([]); 
+  const [categorias, setCategorias] = useState([]); 
   useEffect(() => {
+      getDepartamentos(); 
+      getCategoria();
+  },[]);
+  const getDepartamentos = async() =>{
     fetch("/comunidades/departamentos")
-      .then((res) => res.json())
-      .then((data) => setdepartamentos(data.data));
-  }, []);
-  const llenardepartamentos = () =>{
-    return departamentos.map((com,index)=>(
-      <MenuItem key={index.coddepartamento} value={com.coddepartamento}>
-      {com.departamento}
-     </MenuItem>
-      )); 
-}
-console.log(departamentos); 
+    .then((res) => res.json())
+    .then((data) => setdepartamentos(data.data));
+  }
+  const handledChanged = (e) =>{
+      e.preventDefault()
+      setInput({
+        ...input,
+        [e.target.name]: e.target.value
+      })
+  }
+  const getMunicipio = async (e) =>{
+    setInput({
+      ...input,
+      coddepto : e.target.value
+    })
+    await fetch("/comunidades/municipiosSegunDepa/" + e.target.value)
+    .then((res) => res.json())
+    .then((data) => setMunicipios(data.data));
+  }
+  const getCategoria = async (e) =>{
+    await fetch("/comunidades/categorias")
+    .then((res) => res.json())
+    .then((data) => setCategorias(data.data));
+  }
+  const saveSubmit = async (e) =>{
+    e.preventDefault();
+    postData('/comunidades/guardar', input)
+    .then(data => {
+      console.log(data);
+    });
+    alert('se ha creado la comunidad');  
+  }
   return (
     <>
-      <form>
+      <form onSubmit={(e)=>saveSubmit(e)}>
       <Grid container alignItems="center" justify="center" direction="column">
       <Typography mt={2} variant="h3" gutterBottom>
         Registrar nueva Comunidad
@@ -28,26 +65,40 @@ console.log(departamentos);
         <Grid item>
           <TextField
             id="codigo-input"
-            name="codigo"
+            name="id"
             label="codigo comunidad"
             type="text"
+            onChange={(e) => handledChanged(e)}
+            value = {input.codigo}
           />
         </Grid>
         <Grid item>
           <TextField
             id="nombre-input"
-            name="nombre"
+            name="comunidad"
             label="Nombre de la comunidad"
             type="text"
+            onChange={(e) => handledChanged(e)}
+            value = {input.comunidad}
           />
         </Grid>
         <Grid item>
           <FormControl>
           <FormLabel>Seleccione el departamento</FormLabel>
             <Select
-              name="departamento"
+              name="coddepto"
+              value = {input.coddepto}
+              onChange={(e) => getMunicipio(e)}
+              // onClick = {()=> getMunicipio(3)}
             >
-              {llenardepartamentos()}
+             {
+               departamentos?.map((item, index) =>(
+                <MenuItem key={index} value={item.coddepartamento}>
+                {item.departamento}
+               </MenuItem>
+               ))
+             }
+               {console.log(departamentos)}
             </Select>
           </FormControl>
         </Grid>
@@ -55,17 +106,17 @@ console.log(departamentos);
           <FormControl>
           <FormLabel>Seleccione el municipio</FormLabel>
             <Select
-              name="municipio"
+              name="codmuni"
+              value={input.codmuni}
+              onChange={(e) => handledChanged(e)}
             >
-              <MenuItem key="mac" value="mac">
-                Mac
-              </MenuItem>
-              <MenuItem key="windows" value="windows">
-                Windows
-              </MenuItem>
-              <MenuItem key="linux " value="linux">
-                Linux
-              </MenuItem>
+              {
+               municipios?.map((item, index) =>(
+                <MenuItem key={index} value={item?.codmunicipio}>
+                {item?.municipio}
+               </MenuItem>
+               ))
+             }
             </Select>
           </FormControl>
         </Grid>
@@ -73,17 +124,17 @@ console.log(departamentos);
           <FormControl>
           <FormLabel>Seleccione la categoria</FormLabel>
             <Select
-              name="categoria"
+              name="codcategoria"
+              value={input.codcategoria}
+              onChange={(e) => handledChanged(e)}
             >
-              <MenuItem key="mac" value="mac">
-                Mac
-              </MenuItem>
-              <MenuItem key="windows" value="windows">
-                Windows
-              </MenuItem>
-              <MenuItem key="linux " value="linux">
-                Linux
-              </MenuItem>
+             {
+              categorias?.map((item, index) =>(
+                <MenuItem key={index} value={item?.codcategoria}>
+                {item?.categoria}
+               </MenuItem>
+               ))
+             }
             </Select>
           </FormControl>
         </Grid>
@@ -91,15 +142,17 @@ console.log(departamentos);
           <FormControl mb={2}>
           <FormLabel>Seleccione el distrito</FormLabel>
             <Select
-              name="distrito"
+              name="coddistrito"
+              value={input.coddistrito}
+              onChange={(e) => handledChanged(e)}
             >
-              <MenuItem key="mac" value="mac">
+              <MenuItem key="mac" value={1}>
                 Mac
               </MenuItem>
-              <MenuItem key="windows" value="windows">
+              <MenuItem key="windows" value="2">
                 Windows
               </MenuItem>
-              <MenuItem key="linux " value="linux">
+              <MenuItem key="linux " value="3">
                 Linux
               </MenuItem>
             </Select>
