@@ -40,7 +40,7 @@ export default function Tabla() {
       fetch("/comunidades")
         .then((res) => res.json())
         .then((data) => setComunidades(data.data));
-    }, []);
+    }, [comunidades]);
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -89,16 +89,6 @@ export default function Tabla() {
               <StyledTableCell align="center">
               <Button type="submit" onClick={() => handleDelete(row.codigo)}><DeleteForeverIcon fontSize='small'/></Button>
               </StyledTableCell>
-              {/* <StyledTableCell align="center">
-              <Button  variant="contained" color="danger" type="submit">
-              <EditIcon fontSize='small'/>
-              </Button>
-              </StyledTableCell>
-              <StyledTableCell align="center">
-              <Button  variant="contained" color="danger" type="submit">
-              <DeleteForeverIcon fontSize='small'/>
-              </Button>
-              </StyledTableCell> */}
             </StyledTableRow>
             
           ))}
