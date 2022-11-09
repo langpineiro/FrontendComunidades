@@ -17,14 +17,21 @@ function Form() {
   });
   const [municipios, setMunicipios] = useState([]); 
   const [categorias, setCategorias] = useState([]); 
+  const [distritos, setDistritos] = useState([]);
   useEffect(() => {
       getDepartamentos(); 
       getCategoria();
+      getDistritos();
   },[]);
   const getDepartamentos = async() =>{
     fetch("/comunidades/departamentos")
     .then((res) => res.json())
     .then((data) => setdepartamentos(data.data));
+  }
+  const getDistritos = async() =>{
+    fetch("/comunidades/distritos")
+    .then((res) => res.json())
+    .then((data) => setDistritos(data.data));
   }
   const handledChanged = (e) =>{
       e.preventDefault()
@@ -146,15 +153,13 @@ function Form() {
               value={input.coddistrito}
               onChange={(e) => handledChanged(e)}
             >
-              <MenuItem key="mac" value={1}>
-                Mac
-              </MenuItem>
-              <MenuItem key="windows" value="2">
-                Windows
-              </MenuItem>
-              <MenuItem key="linux " value="3">
-                Linux
-              </MenuItem>
+               {
+              distritos?.map((item, index) =>(
+                <MenuItem key={index} value={item?.coddistrito}>
+                {item?.distrito}
+               </MenuItem>
+               ))
+             }
             </Select>
           </FormControl>
         </Grid>

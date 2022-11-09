@@ -51,7 +51,7 @@ export default function Tabla() {
       <Table mt={4} sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            {/* <StyledTableCell>Codigo Comunidad</StyledTableCell> */}
+            <StyledTableCell>Codigo Comunidad</StyledTableCell>
             <StyledTableCell align="center">Nombre comunidad</StyledTableCell>
             <StyledTableCell align="center">Departamento</StyledTableCell>
             <StyledTableCell align="center">Municipio</StyledTableCell>
@@ -62,13 +62,16 @@ export default function Tabla() {
         <TableBody>
           {comunidades.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => (
             <StyledTableRow key={index}>
-              <StyledTableCell align="center" component="th" scope="row">
-                {row.comunidad}
+            <StyledTableCell align="center" component="th" scope="row">
+                {row.codigo}
               </StyledTableCell>
-              <StyledTableCell align="center">{row.coddepto}</StyledTableCell>
-              <StyledTableCell align="center">{row.codmuni}</StyledTableCell>
-              <StyledTableCell align="center">{row.codcategoria}</StyledTableCell>
-              <StyledTableCell align="center">{row.coddistrito}</StyledTableCell>
+              <StyledTableCell align="center" component="th" scope="row">
+                {row.COMUNIDAD}
+              </StyledTableCell>
+              <StyledTableCell align="center">{row.DEPARTAMENTO}</StyledTableCell>
+              <StyledTableCell align="center">{row.MUNICIPIO}</StyledTableCell>
+              <StyledTableCell align="center">{row.CATEGORIA}</StyledTableCell>
+              <StyledTableCell align="center">{row.DISTRITO}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
