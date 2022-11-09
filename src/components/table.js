@@ -9,6 +9,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useState, useEffect} from 'react'; 
 import TablePagination from '@mui/material/TablePagination';
+import EditIcon from '@mui/icons-material/Edit';
+import {Button} from "@mui/material";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { deleteData } from '../utils/fetch';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -45,6 +49,13 @@ export default function Tabla() {
       setRowsPerPage(+event.target.value);
       setPage(0);
     };
+    const handleDelete = (id) =>{
+      deleteData('/comunidades/eliminar/'+ id)
+      .then(data => {
+        console.log(data);
+      });
+      alert('se ha eliminado la comunidad'); 
+    }
   return (
     <Paper sx={{ width: '100%' }}>
     <TableContainer component={Paper}>
@@ -57,6 +68,8 @@ export default function Tabla() {
             <StyledTableCell align="center">Municipio</StyledTableCell>
             <StyledTableCell align="center">Categoria</StyledTableCell>
             <StyledTableCell align="center">Distrito</StyledTableCell>
+            <StyledTableCell align="center">Editar</StyledTableCell>
+            <StyledTableCell align="center">Eliminar</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -72,7 +85,22 @@ export default function Tabla() {
               <StyledTableCell align="center">{row.MUNICIPIO}</StyledTableCell>
               <StyledTableCell align="center">{row.CATEGORIA}</StyledTableCell>
               <StyledTableCell align="center">{row.DISTRITO}</StyledTableCell>
+              <StyledTableCell align="center"><Button type="submit" color="warning"><EditIcon fontSize='small'/></Button></StyledTableCell>
+              <StyledTableCell align="center">
+              <Button type="submit" onClick={() => handleDelete(row.codigo)}><DeleteForeverIcon fontSize='small'/></Button>
+              </StyledTableCell>
+              {/* <StyledTableCell align="center">
+              <Button  variant="contained" color="danger" type="submit">
+              <EditIcon fontSize='small'/>
+              </Button>
+              </StyledTableCell>
+              <StyledTableCell align="center">
+              <Button  variant="contained" color="danger" type="submit">
+              <DeleteForeverIcon fontSize='small'/>
+              </Button>
+              </StyledTableCell> */}
             </StyledTableRow>
+            
           ))}
         </TableBody>
       </Table>

@@ -14,5 +14,14 @@ async function postData(url = '', data = {}) {
     });
     return response.json();
   }
+
+  async function deleteData(url = '', data = '') {
+ 
+    const response = await fetch(url, {
+      method: 'DELETE'
+    });
+    return response.json();
+  }
   
-export {postData};
+  
+export {postData, deleteData};
