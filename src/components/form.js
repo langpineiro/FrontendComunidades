@@ -60,11 +60,11 @@ function Form() {
     .then(data => {
       console.log(data);
     });
-    alert('se ha creado la comunidad');  
+    alert('se ha creado la comunidad'); 
   }
   return (
     <>
-      <form onSubmit={(e)=>saveSubmit(e)}>
+      <form id="comunidad" onSubmit={(e)=>saveSubmit(e)}>
       <Grid container alignItems="center" justify="center" direction="column">
       <Typography mt={2} variant="h3" gutterBottom>
         Registrar nueva Comunidad

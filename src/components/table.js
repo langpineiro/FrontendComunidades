@@ -9,10 +9,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useState, useEffect} from 'react'; 
 import TablePagination from '@mui/material/TablePagination';
-import EditIcon from '@mui/icons-material/Edit';
 import {Button} from "@mui/material";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { deleteData } from '../utils/fetch';
+import Modal from './ModalEdit';
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -40,7 +40,7 @@ export default function Tabla() {
       fetch("/comunidades")
         .then((res) => res.json())
         .then((data) => setComunidades(data.data));
-    }, [comunidades]);
+    }, []);
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
     };
@@ -55,6 +55,7 @@ export default function Tabla() {
         console.log(data);
       });
       alert('se ha eliminado la comunidad'); 
+      window.location.reload(true); 
     }
   return (
     <Paper sx={{ width: '100%' }}>
@@ -85,7 +86,9 @@ export default function Tabla() {
               <StyledTableCell align="center">{row.MUNICIPIO}</StyledTableCell>
               <StyledTableCell align="center">{row.CATEGORIA}</StyledTableCell>
               <StyledTableCell align="center">{row.DISTRITO}</StyledTableCell>
-              <StyledTableCell align="center"><Button type="submit" color="warning"><EditIcon fontSize='small'/></Button></StyledTableCell>
+              <StyledTableCell align="center">
+              <Modal comunidad={row}/>
+              </StyledTableCell>
               <StyledTableCell align="center">
               <Button type="submit" onClick={() => handleDelete(row.codigo)}><DeleteForeverIcon fontSize='small'/></Button>
               </StyledTableCell>
