@@ -61,6 +61,7 @@ function Form() {
       console.log(data);
     });
     alert('se ha creado la comunidad'); 
+    window.location.reload(true); 
   }
   return (
     <>

@@ -8,11 +8,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useState, useEffect} from 'react'; 
+import Button from "@mui/material/Button";
 import TablePagination from '@mui/material/TablePagination';
-import {Button} from "@mui/material";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { deleteData } from '../utils/fetch';
 import Modal from './ModalEdit';
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { deleteData } from "../utils/fetch";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -31,7 +31,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     border: 0,
   },
 }));
-
+const handleDelete = async (e,id) => {
+  e.preventDefault(); 
+  deleteData("/comunidades/eliminar/"+ id).then((data) => {
+   console.log(data);
+ });
+ alert("se ha eliminado la comunidad");
+ window.location.reload(true); 
+};
 export default function Tabla() {
   const [comunidades ,setComunidades] = useState([]); 
   const [page, setPage] = React.useState(0);
@@ -49,14 +56,6 @@ export default function Tabla() {
       setRowsPerPage(+event.target.value);
       setPage(0);
     };
-    const handleDelete = (id) =>{
-      deleteData('/comunidades/eliminar/'+ id)
-      .then(data => {
-        console.log(data);
-      });
-      alert('se ha eliminado la comunidad'); 
-      window.location.reload(true); 
-    }
   return (
     <Paper sx={{ width: '100%' }}>
     <TableContainer component={Paper}>
@@ -69,8 +68,8 @@ export default function Tabla() {
             <StyledTableCell align="center">Municipio</StyledTableCell>
             <StyledTableCell align="center">Categoria</StyledTableCell>
             <StyledTableCell align="center">Distrito</StyledTableCell>
-            <StyledTableCell align="center">Editar</StyledTableCell>
-            <StyledTableCell align="center">Eliminar</StyledTableCell>
+            <StyledTableCell align="center"></StyledTableCell>
+            <StyledTableCell align="center"></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -89,11 +88,9 @@ export default function Tabla() {
               <StyledTableCell align="center">
               <Modal comunidad={row}/>
               </StyledTableCell>
-              <StyledTableCell align="center">
-              <Button type="submit" onClick={() => handleDelete(row.codigo)}><DeleteForeverIcon fontSize='small'/></Button>
+              <StyledTableCell align="center"><Button onClick={(e) => handleDelete(e, row.codigo)} ><DeleteForeverIcon fontSize='small' /></Button>
               </StyledTableCell>
             </StyledTableRow>
-            
           ))}
         </TableBody>
       </Table>
