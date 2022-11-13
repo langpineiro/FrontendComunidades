@@ -104,7 +104,7 @@ export default function ModalEdit({ comunidad }) {
               </Box>
             </Typography>
           </DialogContentText>
-          <form id="comunidad" onSubmit={(e) => saveSubmit(e)}>
+          <form  onSubmit={(e) => saveSubmit(e)}>
             <Grid
               container
               alignItems="center"
@@ -114,16 +114,6 @@ export default function ModalEdit({ comunidad }) {
               <Typography mt={2} variant="h3" gutterBottom>
                 Datos nuevos para editar:
               </Typography>
-              <Grid item>
-                <TextField
-                  id="codigo-input"
-                  name="condicion"
-                  label="codigo comunidad"
-                  type="text"
-                  onChange={(e) => handledChanged(e)}
-                  value={comunidad.codigo}
-                />
-              </Grid>
               <Grid item>
                 <TextField
                   id="nombre-input"
@@ -199,6 +189,16 @@ export default function ModalEdit({ comunidad }) {
                     ))}
                   </Select>
                 </FormControl>
+              </Grid>
+              <Grid item>
+                <TextField
+                  id="codigo-input"
+                  name="condicion"
+                  label="codigo comunidad"
+                  type="text"
+                  onChange={(e) => handledChanged(e)}
+                  value={input.condicion}
+                />
               </Grid>
               <Button onClick={handleClose}>Editar</Button>
               <Button onClick={handleClose}>cancelar</Button>
