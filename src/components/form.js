@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import {postData} from '../utils/fetch';
 function Form() {
   const [departamentos ,setdepartamentos] = useState([]);
-  // const [departamentSelec, setDepartamentSelec] = useState('');
   const [input, setInput] = useState({
     id : '',
     comunidad : '',
