@@ -191,16 +191,20 @@ export default function ModalEdit({ comunidad }) {
                 </FormControl>
               </Grid>
               <Grid item>
-                <TextField
-                  id="codigo-input"
-                  name="condicion"
-                  label="codigo comunidad"
-                  type="text"
-                  onChange={(e) => handledChanged(e)}
-                  value={input.condicion}
-                />
+                <FormControl mb={2}>
+                  <FormLabel>Seleccione el id</FormLabel>
+                  <Select
+                    name="condicion"
+                    onChange={(e) => handledChanged(e)}
+                    value={input.condicion}
+                  >
+                    <MenuItem value={comunidad?.codigo}>
+                      {comunidad?.codigo}
+                    </MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
-              <Button onClick={handleClose}>Editar</Button>
+              <Button type="submit">Editar</Button>
               <Button onClick={handleClose}>cancelar</Button>
             </Grid>
           </form>
